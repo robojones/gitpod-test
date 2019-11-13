@@ -13,8 +13,12 @@ type field struct {
 	timestamp time.Time
 }
 
-// shouldupdate returns true if the field shoud be affected by the update.
-func (f *field) shouldupdate(updateTime time.Time) bool {
+func (f *field) Timestamp() time.Time {
+	return f.timestamp
+}
+
+// shouldUpdate returns true if the field shoud be affected by the update.
+func (f *field) shouldUpdate(updateTime time.Time) bool {
 	return updateTime.After(f.timestamp)
 }
 

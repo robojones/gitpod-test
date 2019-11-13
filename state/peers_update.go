@@ -1,6 +1,7 @@
 package state
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -8,7 +9,7 @@ import (
 func NewPeersUpdate(node NodeID, t time.Time, peers []NodeID) Update {
 	return peersUpdate{
 		update: newUpdate(node, t),
-		peers: peers,
+		peers:  peers,
 	}
 }
 
@@ -18,5 +19,8 @@ type peersUpdate struct {
 }
 
 func (u peersUpdate) apply(s Node) bool {
-	return s.Peers.update(u.timestamp, u.peers)
+	updated := s.Peers.update(u.timestamp, u.peers)
+
+	fmt.Printf("Peers for node %d updated %#v.\n", u.Node(), s.Peers.Value())
+	return updated
 }

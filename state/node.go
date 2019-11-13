@@ -1,23 +1,23 @@
 package state
 
 // NodeID is the unique identifier of a node.
-type NodeID int64
+type NodeID int
 
 // NewNode is the constructor for Node.
 func NewNode(id NodeID) Node {
 	return Node{
-		id: id,
+		id:     id,
 		Status: newStatusField(),
-		Peers: newPeersField(),
+		Peers:  newPeersField(),
 	}
 }
 
 // Node represents the state of a specific node.
 type Node struct {
 	// id of the node.
-	id NodeID
+	id     NodeID
 	Status *statusField
-	Peers *peersField
+	Peers  *peersField
 }
 
 // ID is the unique identifier of the node.

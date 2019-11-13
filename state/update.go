@@ -11,7 +11,7 @@ type Update interface {
 
 	// Timestamp returns the time when the change was committed.
 	Timestamp() time.Time
-	
+
 	// apply makes the changes to the state.
 	// Returns true if anything was changed.
 	apply(s Node) bool

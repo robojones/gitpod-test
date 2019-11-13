@@ -18,7 +18,7 @@ const (
 
 func newStatusField() *statusField {
 	return &statusField{
-		field: newField(),
+		field:  newField(),
 		status: In,
 	}
 }
@@ -29,15 +29,15 @@ type statusField struct {
 	status Status
 }
 
-// value returns the current status.
-func (f *statusField) value() Status {
+// Value returns the current status.
+func (f *statusField) Value() Status {
 	return f.status
 }
 
 // update is used to change the value of the field.
 // Returns true if the update was applied.
 func (f *statusField) update(t time.Time, value Status) bool {
-	if !f.shouldupdate(t) {
+	if !f.shouldUpdate(t) {
 		return false
 	}
 

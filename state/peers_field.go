@@ -1,6 +1,9 @@
 package state
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 func newPeersField() *peersField {
 	return &peersField{
@@ -15,14 +18,15 @@ type peersField struct {
 	peers []NodeID
 }
 
-// value returns the IDs of the peer nodes.
-func (p *peersField) value() []NodeID {
+// Value returns the IDs of the peer nodes.
+func (p *peersField) Value() []NodeID {
 	return p.peers
 }
 
 // update is used to change the value of this field.
 func (p *peersField) update(t time.Time, peers []NodeID) bool {
-	if !p.shouldupdate(t) {
+	if !p.shouldUpdate(t) {
+		fmt.Printf("Peer update ignored.\n")
 		return false
 	}
 
@@ -32,5 +36,6 @@ func (p *peersField) update(t time.Time, peers []NodeID) bool {
 
 	p.peers = cp
 	p.updateTimestamp(t)
+	
 	return true
 }

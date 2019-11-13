@@ -1,28 +1,33 @@
 package state
 
-import (
-	"fmt"
-)
+// NewCluster creates an empty cluster state.
+func NewCluster() Cluster {
+	return Cluster{}
+}
 
 // Cluster represents the state of the entire cluster.
 // Every node has its own copy of the cluster state.
 type Cluster struct {
-	nodes []Node
+	// Nodes in the cluster.
+	Nodes []Node
 }
 
 // GetNode returns the node with the id.
 // If no node with the ID exists, a new one is created.
 func (c *Cluster) GetNode(id NodeID) Node {
-	for i, n := range c.nodes {
+	for _, n := range c.Nodes {
 		if n.ID() == id {
 			return n
 		}
 	}
 
-	panic(fmt.Errorf("Unknown node %d", id))
+	n := NewNode(id)
+	c.Nodes = append(c.Nodes, n)
+	return n
 }
 
 // ApplyUpdate tries to make the changes of an update.
-func (c *Cluster) ApplyUpdate(u update) bool {
-	id := u.Node()
+func (c *Cluster) ApplyUpdate(u Update) bool {
+	node := c.GetNode(u.Node())
+	return u.apply(node)
 }
