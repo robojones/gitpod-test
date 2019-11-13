@@ -21,6 +21,10 @@ type peersUpdate struct {
 func (u peersUpdate) apply(s Node) bool {
 	updated := s.Peers.update(u.timestamp, u.peers)
 
-	fmt.Printf("Peers for node %d updated %#v.\n", u.Node(), s.Peers.Value())
+    if updated {
+        fmt.Printf("Peers for node %d updated %#v.\n", u.Node(), s.Peers.Value())
+    } else {
+        fmt.Printf("Peers update for node %d ignored.\n", u.Node())
+    }
 	return updated
 }

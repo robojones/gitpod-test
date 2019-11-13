@@ -28,7 +28,7 @@ func (s *Server) subscribeUpdates(c *Connection) {
 		fmt.Printf("Node %d: Receive update.\n", s.id)
 
 		if !ok {
-			fmt.Printf("Node %d: Stop subscribe updates.\n", s.id)
+			fmt.Printf("### Node %d: Stop subscribe updates.\n", s.id)
 			break
 		}
 
@@ -77,11 +77,20 @@ func (s *Server) acceptConnection(c *Connection) {
 	s.addPeer(c.Node())
 }
 
+func (s *Server) sendInitialUpdate(c *Connection) {
+    fmt.Printf("Sync %d\n", c.Node())
+    for _, node := range s.cluster.Nodes {
+        c.Send(state.NewPeersUpdate(node.ID(), node.Peers.Timestamp(), node.Peers.Value()))
+    }
+}
+
 // Connect creates a connection from one server to another one.
 func (s *Server) Connect(target *Server) {
 	to, from := NewConnection(target.id, s.id)
 	s.acceptConnection(from)
-	target.acceptConnection(to)
+    target.acceptConnection(to)
+    
+    target.sendInitialUpdate(to)
 	
 	fmt.Printf("Node %d: Connected.\n", s.id)
 }

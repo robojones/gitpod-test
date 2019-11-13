@@ -31,7 +31,7 @@ func (p *peersField) update(t time.Time, peers []NodeID) bool {
 	}
 
 	// Copy the peers slice to remove any references.
-	cp := make([]NodeID, cap(peers))
+	cp := make([]NodeID, len(peers))
 	copy(cp, peers)
 
 	p.peers = cp
